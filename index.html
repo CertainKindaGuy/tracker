@@ -51,6 +51,7 @@
       --accent-soft: rgba(86,193,171,0.13);
       --accent-border: rgba(86,193,171,0.35);
       --accent-ring: rgba(86,193,171,0.30);
+      --on-accent: #0c1f1a;   /* text on top of accent-filled buttons */
 
       /* Status colours */
       --ok: #5cc98f;
@@ -61,8 +62,8 @@
       --danger-border: rgba(239,110,102,0.38);
 
       /* Shape & depth */
-      --radius: 16px;
-      --radius-sm: 11px;
+      --radius: 18px;
+      --radius-sm: 12px;
       --shadow: 0 10px 28px rgba(0,0,0,0.35);
       --shadow-soft: 0 2px 10px rgba(0,0,0,0.22);
 
@@ -92,9 +93,10 @@
       font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial,
                    "Apple Color Emoji", "Segoe UI Emoji";
       color: var(--text);
-      /* Two very faint glows keep the dark background from feeling flat */
+      /* Two very faint glows keep the dark background from feeling flat.
+         The first one follows the chosen accent color. */
       background:
-        radial-gradient(900px 520px at 15% -10%, rgba(86,193,171,0.06) 0, transparent 60%),
+        radial-gradient(900px 520px at 15% -10%, color-mix(in srgb, var(--accent) 8%, transparent) 0, transparent 60%),
         radial-gradient(700px 420px at 90% -5%, rgba(120,140,200,0.05) 0, transparent 60%),
         var(--bg);
       background-attachment: fixed;
@@ -120,7 +122,8 @@
       border-radius: 14px;
       background: linear-gradient(135deg, #232b36 0%, #11151b 100%);
       border: 1px solid var(--border-strong);
-      box-shadow: 0 6px 18px rgba(0,0,0,0.45), 0 0 26px rgba(86,193,171,0.16);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.45),
+                  0 0 26px color-mix(in srgb, var(--accent) 18%, transparent);
       display: grid; place-items: center;
     }
     .app-emblem svg { width: 42px; height: 42px; display: block; }
@@ -161,7 +164,7 @@
     .toolbar button, .btn, .btn-sm, .add-btn, .controls button, .color-select-btn {
       font-family: inherit;
       font-weight: 600;
-      border-radius: var(--radius-sm);
+      border-radius: 999px; /* pill shape — friendlier, more app-like */
       border: 1px solid var(--border-strong);
       background: var(--surface-2);
       color: var(--text);
@@ -185,13 +188,13 @@
     #add-med {
       background: linear-gradient(180deg, var(--accent-strong) 0%, var(--accent) 55%);
       border-color: transparent;
-      color: #0c1f1a;
+      color: var(--on-accent);
       font-weight: 700;
-      box-shadow: 0 4px 16px rgba(86,193,171,0.25);
+      box-shadow: 0 4px 16px color-mix(in srgb, var(--accent) 28%, transparent);
     }
     #add-med:hover {
       background: var(--accent-strong);
-      box-shadow: 0 4px 20px rgba(86,193,171,0.38);
+      box-shadow: 0 4px 20px color-mix(in srgb, var(--accent) 40%, transparent);
     }
 
     /* ===== Page footer (rarely-used actions) ===== */
@@ -375,8 +378,8 @@
       font-weight: 700;
       background: linear-gradient(180deg, var(--accent-strong) 0%, var(--accent) 55%);
       border-color: transparent;
-      color: #0c1f1a;
-      box-shadow: 0 3px 12px rgba(86,193,171,0.20);
+      color: var(--on-accent);
+      box-shadow: 0 3px 12px color-mix(in srgb, var(--accent) 22%, transparent);
     }
     button.add-btn:hover { background: var(--accent-strong); }
 
@@ -394,12 +397,17 @@
       flex-shrink: 0;
     }
     .color-menu {
-      position: absolute; top: calc(100% + 6px); left: 0; min-width: 200px;
+      /* Floating dropdown. Its position is set in JS using position:fixed
+         (relative to the screen) so it overlays *beyond* the card instead
+         of being clipped by the card's overflow:hidden — which is needed
+         for the rounded corners and the open/close animation. */
+      position: fixed; min-width: 200px;
+      max-height: 60vh; overflow-y: auto;
       background: var(--surface-3);
       border: 1px solid var(--border-strong);
       border-radius: 12px; padding: 6px;
       box-shadow: var(--shadow);
-      display: none; z-index: 200;
+      display: none; z-index: 1000;
       animation: pop-in var(--t-fast) var(--ease);
     }
     .color-picker.open .color-menu { display: grid; grid-template-columns: 1fr; gap: 4px; }
@@ -454,7 +462,7 @@
 
     /* Day separators: clear section labels with that day's totals at a glance */
     .date-row td {
-      background: rgba(255,255,255,0.025);
+      background: color-mix(in srgb, var(--accent) 5%, transparent);
       padding: 9px 14px;
       font-variant-numeric: tabular-nums;
     }
@@ -693,7 +701,7 @@
         <svg viewBox="0 0 512 512" focusable="false">
           <g transform="translate(256 256) scale(1.26) rotate(28) translate(-256 -256)">
             <rect x="186" y="104" width="140" height="304" rx="70" fill="#e9ecf2"/>
-            <path d="M186 256 h140 v82 a70 70 0 0 1 -140 0 z" fill="#56c1ab"/>
+            <path d="M186 256 h140 v82 a70 70 0 0 1 -140 0 z" style="fill: var(--accent)"/>
             <rect x="186" y="252" width="140" height="7" fill="#0f1216" opacity="0.30"/>
             <rect x="203" y="126" width="22" height="90" rx="11" fill="#ffffff" opacity="0.45"/>
             <rect x="203" y="300" width="22" height="66" rx="11" fill="#ffffff" opacity="0.18"/>
@@ -1605,10 +1613,28 @@
           menu.appendChild(opt);
         });
 
+        // Place the floating menu just below the button, flipping above or
+        // nudging sideways if it would run off the edge of the screen.
+        const positionMenu = () => {
+          const r = colorBtn.getBoundingClientRect();
+          const gap = 6, pad = 8;
+          const mw = menu.offsetWidth, mh = menu.offsetHeight;
+          let top = r.bottom + gap;
+          if (top + mh > window.innerHeight - pad && r.top - gap - mh > pad) {
+            top = r.top - gap - mh;
+          }
+          let left = Math.min(r.left, window.innerWidth - pad - mw);
+          left = Math.max(pad, left);
+          menu.style.top = top + 'px';
+          menu.style.left = left + 'px';
+        };
+        colorWrap._reposition = positionMenu; // global scroll/resize handlers use this
+
         colorBtn.addEventListener('click', (e) => {
           e.stopPropagation();
           const isOpen = colorWrap.classList.toggle('open');
           colorBtn.setAttribute('aria-expanded', String(isOpen));
+          if (isOpen) positionMenu();
         });
 
         colorWrap.appendChild(colorLabel);
@@ -1625,6 +1651,10 @@
     }
 
     document.addEventListener('click', () => { $$('.color-picker.open').forEach(el => el.classList.remove('open')); });
+    // Keep any open floating color menu anchored to its button while scrolling/resizing.
+    const repositionOpenMenus = () => { $$('.color-picker.open').forEach(el => el._reposition && el._reposition()); };
+    window.addEventListener('scroll', repositionOpenMenus, true);
+    window.addEventListener('resize', repositionOpenMenus);
 
     function renderLog() {
       const entries = [...state.entries].sort((a,b) => b.ts - a.ts);
@@ -2073,6 +2103,7 @@
         try { localStorage.setItem(HINT_DISMISSED_KEY, '1'); } catch {}
       });
     })();
+
   </script>
 </body>
 </html>

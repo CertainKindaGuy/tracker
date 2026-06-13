@@ -12,7 +12,7 @@
    nobody gets stuck on stale code.
    ============================================================================= */
 
-const CACHE_VERSION = 'v11';
+const CACHE_VERSION = 'v13-redesign';
 const CACHE_NAME = `med-tracker-${CACHE_VERSION}`;
 
 // Files the app cannot run without. If any of these fail to download,
