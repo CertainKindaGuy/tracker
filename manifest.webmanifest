@@ -1,7 +1,7 @@
 {
-  "name": "Drug Tracker",
-  "short_name": "Tracker",
-  "description": "Track drug dosage and timing easily on any device. All data stays on your device.",
+  "name": "DoseTracker",
+  "short_name": "DoseTracker",
+  "description": "Track doses and timing easily on any device. All data stays on your device.",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",

@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-  <!-- App icon for Drug Tracker: a capsule on the app's dark background.
+  <!-- App icon for DoseTracker: a capsule on the app's dark background.
        The background fills the whole square edge-to-edge so iOS/Android can
        apply their own rounded-corner masks without dark gaps showing. -->
   <defs>

@@ -1,5 +1,5 @@
 /* =============================================================================
-   Service worker for Drug Tracker.
+   Service worker for DoseTracker.
 
    This file makes the app work offline. The first time the app loads, the
    browser downloads everything into a local cache. From then on, every load
@@ -12,7 +12,7 @@
    nobody gets stuck on stale code.
    ============================================================================= */
 
-const CACHE_VERSION = 'v13-redesign';
+const CACHE_VERSION = 'v14-dosetracker';
 const CACHE_NAME = `med-tracker-${CACHE_VERSION}`;
 
 // Files the app cannot run without. If any of these fail to download,
